@@ -72,4 +72,11 @@ class ItemsController extends Controller
 
         return redirect()->route('admin.items.index')->with('message', 'Successfully Updated Item');
     }
+
+    public function destroy(Item $item): RedirectResponse
+    {
+        $item->delete();
+        return redirect()->route('admin.items.index')->with('message', 'Item successfully deleted.');
+    }
+    
 }

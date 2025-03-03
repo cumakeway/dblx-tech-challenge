@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
 import type { BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { defineProps } from 'vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -33,6 +33,12 @@ const filteredItems = computed(() => {
         return matchesSearch && matchesType;
     });
 });
+
+const deleteItem = (id: number) => {
+    if (confirm('Are you sure you want to delete this item?')) {
+        router.delete(route('admin.items.destroy', id));
+    }
+};
 </script>
 
 <template>
@@ -76,6 +82,7 @@ const filteredItems = computed(() => {
                                 <TableCell>{{ item.active ? 'Active' : 'Inactive' }}</TableCell>
                                 <TableCell class="text-right">
                                     <Button :as="Link" variant="link" :href="route('admin.items.edit', item.id)">Edit</Button>
+                                    <Button variant="destructive" class="ml-2" @click="deleteItem(item.id)">Delete</Button>
                                 </TableCell>
                             </TableRow>
                         </TableBody>
